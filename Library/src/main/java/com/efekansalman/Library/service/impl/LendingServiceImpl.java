@@ -63,20 +63,51 @@ public class LendingServiceImpl implements LendingService {
 
 	@Override
 	public void returnBook(Long lendingId) {
-		// TODO Auto-generated method stub
+		// Find the lending record
+		Lending lending = lendingRepository.findById(lendingId)
+				.orElseThrow(() -> new RuntimeException("Lending not found with ID: " + lendingId));
 		
+		// Update return date and book stock
+		lending.setReturnDate(new Date());
+		Book book = lending.getBook();
+		book.setStock(book.getStock() + 1);
+		book.setAvailable(true);
+		
+		// Save changes
+		bookRepository.save(book);
+		lendingRepository.save(lending);
 	}
 
 	@Override
 	public List<Lending> findLendingsByCustomer(Long customerId) {
-		// TODO Auto-generated method stub
-		return null;
+		// Find the customer
+		Customer customer = customerRepository.findById(customerId)
+				.orElseThrow(() -> new RuntimeException("Customer not found with ID: " + customerId));
+		// Return all lendings for the customer
+		return lendingRepository.findByCustomer(customer);
 	}
 
 	@Override
 	public double calculateFine(Long lendingId) {
-		// TODO Auto-generated method stub
-		return 0;
+		// Find the lending record
+		Lending lending = lendingRepository.findById(lendingId)
+				.orElseThrow(() -> new RuntimeException("Lending not found with ID: " + lendingId));
+		
+		// If book is returned, no fine :) 
+		if (lending.getReturnDate() != null) {
+			return 0.0;
+		}
+		
+		// Calculate days overdue
+		long currentTime = System.currentTimeMillis();
+		long dueTime = lending.getDueDate().getTime();
+		
+		if (currentTime <= dueTime) {
+			return 0.0; 
+		}
+		
+		long daysOverdue = (currentTime - dueTime) / (1000 * 60 * 60 *24);
+		double finePerDay = 1.0; // $1 per day
+		return daysOverdue * finePerDay;
 	}
-
 }
