@@ -2,7 +2,7 @@ package com.efekansalman.Library.Entity;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Locale.Category;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,6 +36,7 @@ public class Book {
 	private int pageCount;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private Category category;
 	
 	private String shelf;

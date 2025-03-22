@@ -1,6 +1,7 @@
 package com.efekansalman.Library.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.efekansalman.Library.Entity.Book;
 import com.efekansalman.Library.Entity.Category;
+import com.efekansalman.Library.dto.BookDTO;
 import com.efekansalman.Library.service.BookService;
 
 @RestController
@@ -25,10 +27,27 @@ public class BookController {
 	private BookService bookService;
 	
 	@PostMapping
-	public ResponseEntity<Book> addBook(@RequestBody Book book) {
-		// Adds a new book
-		Book addedBook = bookService.addBook(book);
-		return ResponseEntity.ok(addedBook);
+	public ResponseEntity<BookDTO> addBook(@RequestBody BookDTO bookDTO) {
+		Book book = new Book();
+		book.setTitle(bookDTO.getTitle());
+		book.setPublicationDate(bookDTO.getPublicationDate());
+		book.setPrintDate(bookDTO.getPrintDate());
+		book.setPageCount(bookDTO.getPageCount());
+		book.setCategory(bookDTO.getCategory());
+		book.setShelf(bookDTO.getShelf());
+		book.setLibrary(bookDTO.getLibrary());
+		book.setFloor(bookDTO.getFloor());
+		book.setSection(bookDTO.getSection());
+		book.setStock(bookDTO.getStock());
+		book.setAvailable(bookDTO.isAvailable());
+		
+		// Save the book
+		Book savedBook = bookService.addBook(book);
+		
+		// Convert Entity to DTO
+		BookDTO savedBookDTO = convertToDTO(savedBook);
+		return ResponseEntity.ok(savedBookDTO);
+		
 	}
 	
 	@DeleteMapping("/{id}")
@@ -39,23 +58,45 @@ public class BookController {
 	}
 	
 	@GetMapping("/search/title")
-	public ResponseEntity<List<Book>> findBooksByTitle(@RequestParam String title) {
+	public ResponseEntity<List<BookDTO>> findBooksByTitle(@RequestParam String title) {
 		// Finds book by title
 		List<Book> books = bookService.findBooksByTitle(title);
-		return ResponseEntity.ok(books);
+		List<BookDTO> bookDTOs = books.stream().map(this::convertToDTO).collect(Collectors.toList());
+		return ResponseEntity.ok(bookDTOs);
 	}
 	
 	@GetMapping("/search/category")
-	public ResponseEntity<List<Book>> findBooksByCategory(@RequestParam Category category) {
+	public ResponseEntity<List<BookDTO>> findBooksByCategory(@RequestParam Category category) {
 		// Finds books by category
 		List<Book> books = bookService.findBooksByCategory(category);
-		return ResponseEntity.ok(books);
+        List<BookDTO> bookDTOs = books.stream().map(this::convertToDTO).collect(Collectors.toList());
+		return ResponseEntity.ok(bookDTOs);
 	}
 	
 	@GetMapping("/available")
-	public ResponseEntity<List<Book>> findAvailableBooks() {
+	public ResponseEntity<List<BookDTO>> findAvailableBooks() {
 		// Finds all available books
-		List<Book> books = bookService.findAvailableBooks();
-		return ResponseEntity.ok(books);
+        List<Book> books = bookService.findAvailableBooks();
+        List<BookDTO> bookDTOs = books.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return ResponseEntity.ok(bookDTOs);
 	}	
+	
+    // Helper method to convert Book entity to BookDTO
+    private BookDTO convertToDTO(Book book) {
+        BookDTO dto = new BookDTO();
+        dto.setId(book.getId());
+        dto.setTitle(book.getTitle());
+        dto.setPublicationDate(book.getPublicationDate());
+        dto.setPrintDate(book.getPrintDate());
+        dto.setPageCount(book.getPageCount());
+        dto.setCategory(book.getCategory());
+        dto.setShelf(book.getShelf());
+        dto.setLibrary(book.getLibrary());
+        dto.setFloor(book.getFloor());
+        dto.setSection(book.getSection());
+        dto.setStock(book.getStock());
+        dto.setAvailable(book.isAvailable());
+        dto.setAuthorNames(book.getAuthors().stream().map(author -> author.getName()).collect(Collectors.toList()));
+        return dto;
+    }
 }

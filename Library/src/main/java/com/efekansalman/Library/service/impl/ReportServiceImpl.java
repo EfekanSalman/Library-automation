@@ -36,7 +36,7 @@ public class ReportServiceImpl implements ReportService {
         Report report = new Report();
         report.setAdmin(admin);
         report.setType(type);
-        report.setGenerateDate(new Date());
+        report.setGeneratedDate(new Date());
 
         // Generate report content based on type
         String content;

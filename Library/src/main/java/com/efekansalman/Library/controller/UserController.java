@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.efekansalman.Library.Entity.User;
+import com.efekansalman.Library.dto.UserDTO;
 import com.efekansalman.Library.service.UserService;
 
 @RestController
@@ -21,25 +22,44 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping("/register")
-	public ResponseEntity<User> registerUSer(@RequestBody User user) {
-		// Register a new user
-		User registerUser = userService.registerUser(user);
-		return ResponseEntity.ok(registerUser);
-	}
+
+    @PostMapping("/register")
+    public UserDTO registerUser(@RequestBody User user) {
+        User registeredUser = userService.registerUser(user);
+        UserDTO dto = new UserDTO();
+        dto.setId(registeredUser.getId());
+        dto.setUsername(registeredUser.getUsername());
+        dto.setEmail(registeredUser.getEmail());
+        dto.setRole(registeredUser.getRole());
+        dto.setPenaltyDebt(registeredUser.getPenaltyDebt());
+        return dto;
+    }
+
 	
-	@GetMapping("/{username}")
-	public ResponseEntity<User> findByUsername(@PathVariable String username) {
-		// Finds a user by username
-		return userService.findByUsername(username)
-				.map(ResponseEntity::ok)
-				.orElseGet(() -> ResponseEntity.notFound().build());
-	}
-	
-	@PutMapping("/{id}/penalty")
-	public ResponseEntity<Void> updatePenaltyDebt(@PathVariable Long id, @RequestParam double amount) {
-		// Updates the penalty debt for a user
-		userService.updatePenaltDebt(id, amount);
-		return ResponseEntity.ok().build();
-	}	
+    @GetMapping("/{username}")
+    public ResponseEntity<UserDTO> findByUsername(@PathVariable String username) {
+        // Find user and convert to DTO
+        return userService.findByUsername(username)
+            .map(this::convertToDTO)
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}/penalty")
+    public ResponseEntity<Void> updatePenaltyDebt(@PathVariable Long id, @RequestParam double amount) {
+        // Update penalty debt (no DTO needed for this simple operation)
+        userService.updatePenaltyDebt(id, amount);
+        return ResponseEntity.ok().build();
+    }
+
+    // Helper method to convert User entity to UserDTO
+    private UserDTO convertToDTO(User user) {
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
+        dto.setEmail(user.getEmail());
+        dto.setRole(user.getRole());
+        dto.setPenaltyDebt(user.getPenaltyDebt());
+        return dto;
+    }
 }

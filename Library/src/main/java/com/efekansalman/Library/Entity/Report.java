@@ -26,7 +26,8 @@ public class Report {
 	@Enumerated(EnumType.STRING)
 	private ReportType type;
 	
-	private Date generateDate;
+	@Column(nullable = false)
+	private Date generatedDate;
 	
 	@Column(columnDefinition = "TEXT")
 	private String content;

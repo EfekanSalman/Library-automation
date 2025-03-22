@@ -13,5 +13,5 @@ public interface UserService {
 	Optional<User> findByUsername(String username);
 	
 	// Updates user's penalty debt
-	void updatePenaltDebt(Long userId, double amount);
+	void updatePenaltyDebt(Long id, double amount);
 }

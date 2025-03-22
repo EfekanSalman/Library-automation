@@ -3,6 +3,7 @@ package com.efekansalman.Library.service.impl;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.efekansalman.Library.Entity.User;
@@ -16,10 +17,14 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	
 	@Override
 	public User registerUser(User user) {
 		// Save the user to the database and return it
+		user.setPassword(passwordEncoder.encode(user.getPassword())); // password will be hashed
 		return userRepository.save(user);
 	}
 
@@ -30,7 +35,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updatePenaltDebt(Long userId, double amount) {
+	public void updatePenaltyDebt(Long userId, double amount) {
 		// Find the user by ID, update penalty debt and save
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));

@@ -11,5 +11,4 @@ public enum Category {
     ROMANCE,         
     THRILLER,       
     CHILDREN          
-	
 }
