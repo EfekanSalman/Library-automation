@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.efekansalman.Library.Entity.User;
+import com.efekansalman.Library.exception.UserAlreadyExistsException;
 import com.efekansalman.Library.repository.UserRepository;
 import com.efekansalman.Library.service.UserService;
 
@@ -23,6 +24,14 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public User registerUser(User user) {
+		
+		if (userRepository.existsByEmail(user.getEmail())) {
+			throw new UserAlreadyExistsException("Email already exists: " + user.getEmail());
+		}
+		if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+			throw new UserAlreadyExistsException("Username already exists: " + user.getUsername());
+		}
+		
 		// Save the user to the database and return it
 		user.setPassword(passwordEncoder.encode(user.getPassword())); // password will be hashed
 		return userRepository.save(user);
