@@ -23,6 +23,7 @@ import com.efekansalman.Library.service.LendingService;
 @Service
 public class LendingServiceImpl implements LendingService {
 
+	// TODO fix that
 	@Autowired
 	private LendingRepository lendingRepository;
 	
