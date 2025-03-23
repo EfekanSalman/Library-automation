@@ -3,6 +3,7 @@ package com.efekansalman.Library.repository;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,5 +17,5 @@ public interface LendingRepository extends JpaRepository<Lending, Long> {
 	List<Lending> findByCustomer(Customer customer);
 	
 	// Finds overdue lendings 
-	List<Lending> findByReturnDateIsNullAndDueDateBefore(Date date);
+	List<Lending> findByReturnDateIsNullAndDueDateBefore(Date date, Pageable pageable);
 }

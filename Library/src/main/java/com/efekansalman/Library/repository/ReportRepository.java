@@ -2,6 +2,7 @@ package com.efekansalman.Library.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,5 +17,5 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
 	List<Report> findByAdmin(Admin admin);
 	
 	// Finds reports by type
-	List<Report> findByType(ReportType type);	
+	List<Report> findByType(ReportType type, Pageable pageable);	
 }
