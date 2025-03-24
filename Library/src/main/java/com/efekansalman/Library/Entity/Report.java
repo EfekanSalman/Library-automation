@@ -21,16 +21,16 @@ public class Report {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private final Long id;
 	
 	@Enumerated(EnumType.STRING)
 	private ReportType type;
 	
 	@Column(nullable = false)
-	private Date generatedDate;
+	private final Date generatedDate;
 	
 	@Column(columnDefinition = "TEXT")
-	private String content;
+	private final String content;
 	
 	@ManyToOne
 	@JoinColumn(name = "admin_id", nullable = false)

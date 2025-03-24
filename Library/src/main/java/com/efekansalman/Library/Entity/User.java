@@ -23,16 +23,16 @@ import lombok.Data;
 public abstract class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private final long id;
 	
 	@Column(nullable = false, unique = true)
-	private String username;
+	private final String username;
 	
 	@Column(nullable = false)
-	private String password;
+	private final String password;
 	
 	@Column(nullable = false)
-	private String email;
+	private final String email;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)

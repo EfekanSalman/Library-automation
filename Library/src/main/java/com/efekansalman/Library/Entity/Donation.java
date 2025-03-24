@@ -18,7 +18,7 @@ public class Donation {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private final Long id;
 	
 	@ManyToOne
 	@JoinColumn(name = "book_id", nullable = false)

@@ -19,14 +19,14 @@ public class Author {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private final Long id;
 	
 	@Column(nullable = false)
-	private String name;
+	private final String name;
 
-	private Date birthDate;
+	private final Date birthDate;
 	
 	@ManyToMany(mappedBy = "authors")
-	private List<Book> books;
+	private final List<Book> books;
 	
 }
