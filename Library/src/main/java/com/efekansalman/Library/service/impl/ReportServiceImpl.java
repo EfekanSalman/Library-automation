@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,16 +24,19 @@ import com.efekansalman.Library.service.ReportService;
 @Service
 public class ReportServiceImpl implements ReportService {
 
-    @Autowired
-    private ReportRepository reportRepository;
+    private final ReportRepository reportRepository;
+    private final AdminRepository adminRepository;
+    private final LendingRepository lendingRepository;
 
-    @Autowired
-    private AdminRepository adminRepository;
+    public ReportServiceImpl(ReportRepository reportRepository, AdminRepository adminRepository,
+			LendingRepository lendingRepository) {
+		super();
+		this.reportRepository = reportRepository;
+		this.adminRepository = adminRepository;
+		this.lendingRepository = lendingRepository;
+	}
 
-    @Autowired
-    private LendingRepository lendingRepository;
-
-    @Override
+	@Override
     public Report generateReport(Long adminId, ReportType type) {
         // Find the admin
         Admin admin = adminRepository.findById(adminId)

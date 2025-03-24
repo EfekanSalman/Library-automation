@@ -2,7 +2,6 @@ package com.efekansalman.Library.service.impl;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +13,15 @@ import com.efekansalman.Library.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
-	// TODO people don't use "autowired" annotations so ı can delete that later
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	
+	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
+		
+	public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+		super();
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
+
 	@Override
 	public User registerUser(User user) {
 		

@@ -17,16 +17,18 @@ import com.efekansalman.Library.service.DonationService;
 @Service
 public class DonationServiceImpl implements DonationService {
 
-	@Autowired
-	private DonationRepository donationRepository;
+	private final DonationRepository donationRepository;
+	private final BookRepository bookRepository;
+	private final CustomerRepository customerRepository;
 	
-	@Autowired
-	private BookRepository bookRepository;
-	
-	@Autowired
-	private CustomerRepository customerRepository;
-	
-	
+	public DonationServiceImpl(DonationRepository donationRepository, BookRepository bookRepository,
+			CustomerRepository customerRepository) {
+		super();
+		this.donationRepository = donationRepository;
+		this.bookRepository = bookRepository;
+		this.customerRepository = customerRepository;
+	}
+
 	@Override
 	public Donation donateBook(Long bookId, Long customerId) {
 		// Find the book and customer

@@ -3,7 +3,6 @@ package com.efekansalman.Library.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +19,14 @@ import com.efekansalman.Library.service.NotificationService;
 @RequestMapping("/api/notifications")
 public class NotificationController {
 
-    @Autowired
-    private NotificationService notificationService;
+    private final NotificationService notificationService;
 
-    @PostMapping
+    public NotificationController(NotificationService notificationService) {
+		super();
+		this.notificationService = notificationService;
+	}
+
+	@PostMapping
     public ResponseEntity<NotificationDTO> sendNotification(@RequestParam Long customerId, @RequestParam String message) {
         // Send a notification and convert to DTO
         Notification notification = notificationService.sendNotification(customerId, message);

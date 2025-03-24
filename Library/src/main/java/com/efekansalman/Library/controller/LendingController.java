@@ -3,7 +3,6 @@ package com.efekansalman.Library.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,10 +20,14 @@ import com.efekansalman.Library.service.LendingService;
 @RequestMapping("/api/lendings")
 public class LendingController {
 
-    @Autowired
-    private LendingService lendingService;
+    private final LendingService lendingService;
+    
+    public LendingController(LendingService lendingService) {
+		super();
+		this.lendingService = lendingService;
+	}
 
-    @PostMapping("/borrow")
+	@PostMapping("/borrow")
     public ResponseEntity<LendingDTO> borrowBook(@RequestParam Long bookId, @RequestParam Long customerId) {
         // Borrow a book and convert to DTO
         Lending lending = lendingService.borrowBook(bookId, customerId);

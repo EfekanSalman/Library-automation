@@ -21,10 +21,14 @@ import com.efekansalman.Library.service.ReportService;
 @RequestMapping("/api/reports")
 public class ReportController {
 
-    @Autowired
-    private ReportService reportService;
+    private final ReportService reportService;
 
-    @PostMapping
+    public ReportController(ReportService reportService) {
+		super();
+		this.reportService = reportService;
+	}
+
+	@PostMapping
     public ResponseEntity<ReportDTO> generateReport(@RequestParam Long adminId, @RequestParam ReportType type) {
         // Generate a report and convert to DTO
         Report report = reportService.generateReport(adminId, type);

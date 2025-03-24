@@ -3,7 +3,6 @@ package com.efekansalman.Library.service.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.efekansalman.Library.Entity.Customer;
@@ -15,12 +14,16 @@ import com.efekansalman.Library.service.NotificationService;
 @Service
 public class NotificationServiceImpl implements NotificationService {
 
-	@Autowired
-	private NotificationRepository notificationRepository;
+	private final NotificationRepository notificationRepository;
+	private final CustomerRepository customerRepository;
 	
-	@Autowired
-	private CustomerRepository customerRepository;
-	
+	public NotificationServiceImpl(NotificationRepository notificationRepository,
+			CustomerRepository customerRepository) {
+		super();
+		this.notificationRepository = notificationRepository;
+		this.customerRepository = customerRepository;
+	}
+
 	@Override
 	public Notification sendNotification(Long customerId, String message) {
 		// Find the customer

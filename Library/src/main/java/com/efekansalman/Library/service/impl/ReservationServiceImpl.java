@@ -3,7 +3,6 @@ package com.efekansalman.Library.service.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.efekansalman.Library.Entity.Book;
@@ -18,15 +17,18 @@ import com.efekansalman.Library.service.ReservationService;
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
-	@Autowired
-	private ReservationRepository reservationRepository;
+	private final ReservationRepository reservationRepository;
+	private final BookRepository bookRepository;
+	private final CustomerRepository customerRepository;
 	
-	@Autowired
-	private BookRepository bookRepository;
-	
-	@Autowired
-	private CustomerRepository customerRepository;
-	
+	public ReservationServiceImpl(ReservationRepository reservationRepository, BookRepository bookRepository,
+			CustomerRepository customerRepository) {
+		super();
+		this.reservationRepository = reservationRepository;
+		this.bookRepository = bookRepository;
+		this.customerRepository = customerRepository;
+	}
+
 	@Override
 	public Reservation reserveBook(Long bookId, Long customerId) {
 		// Find the book and customer

@@ -3,7 +3,6 @@ package com.efekansalman.Library.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +19,14 @@ import com.efekansalman.Library.service.DonationService;
 @RequestMapping("/api/donations")
 public class DonationController {
 
-    @Autowired
-    private DonationService donationService;
+    private final DonationService donationService;
 
-    @PostMapping
+    public DonationController(DonationService donationService) {
+		super();
+		this.donationService = donationService;
+	}
+
+	@PostMapping
     public ResponseEntity<DonationDTO> donateBook(@RequestParam Long bookId, @RequestParam Long customerId) {
         // Donate a book and convert to DTO
         Donation donation = donationService.donateBook(bookId, customerId);

@@ -3,7 +3,6 @@ package com.efekansalman.Library.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +22,13 @@ import com.efekansalman.Library.service.BookService;
 @RequestMapping("/api/books")
 public class BookController {
 
-	@Autowired
-	private BookService bookService;
+	private final BookService bookService;
 	
+	public BookController(BookService bookService) {
+		super();
+		this.bookService = bookService;
+	}
+
 	@PostMapping
 	public ResponseEntity<BookDTO> addBook(@RequestBody BookDTO bookDTO) {
 		Book book = new Book();

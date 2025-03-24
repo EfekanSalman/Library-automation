@@ -2,7 +2,6 @@ package com.efekansalman.Library.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.efekansalman.Library.Entity.Book;
@@ -13,10 +12,13 @@ import com.efekansalman.Library.service.BookService;
 @Service
 public class BookServiceImpl implements BookService {
 
-	// TODO autowired can be deleted?
-	@Autowired
-	private BookRepository bookRepository;
+	private final BookRepository bookRepository;
 	
+	public BookServiceImpl(BookRepository bookRepository) {
+		super();
+		this.bookRepository = bookRepository;
+	}
+
 	@Override
 	public Book addBook(Book book) {
 		// Save the book to the database and return it

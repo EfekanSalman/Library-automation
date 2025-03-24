@@ -23,16 +23,17 @@ import com.efekansalman.Library.service.LendingService;
 @Service
 public class LendingServiceImpl implements LendingService {
 
-	// TODO fix that
-	@Autowired
-	private LendingRepository lendingRepository;
-	
-	@Autowired
-	private BookRepository bookRepository;
-	
-	@Autowired
-	private CustomerRepository customerRepository;
+	private final LendingRepository lendingRepository;
+	private final BookRepository bookRepository;
+	private final CustomerRepository customerRepository;
 
+	public LendingServiceImpl(LendingRepository lendingRepository, BookRepository bookRepository,
+			CustomerRepository customerRepository) {
+		super();
+		this.lendingRepository = lendingRepository;
+		this.bookRepository = bookRepository;
+		this.customerRepository = customerRepository;
+	}
 
 	@Override
 	public Lending borrowBook(Long bookId, Long customerId) {

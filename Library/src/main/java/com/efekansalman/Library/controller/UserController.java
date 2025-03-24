@@ -1,6 +1,5 @@
 package com.efekansalman.Library.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +18,15 @@ import com.efekansalman.Library.service.UserService;
 @RequestMapping("/api/users")
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 	
+    public UserController(UserService userService) {
+		super();
+		this.userService = userService;
+	}
 
-    @PostMapping("/register")
+
+	@PostMapping("/register")
     public UserDTO registerUser(@RequestBody User user) {
         User registeredUser = userService.registerUser(user);
         UserDTO dto = new UserDTO();

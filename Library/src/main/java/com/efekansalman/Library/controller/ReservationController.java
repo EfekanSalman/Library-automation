@@ -3,7 +3,6 @@ package com.efekansalman.Library.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +19,15 @@ import com.efekansalman.Library.service.ReservationService;
 @RestController
 @RequestMapping("/api/reservations")
 public class ReservationController {
+	
+    private final ReservationService reservationService;
+    
+    public ReservationController(ReservationService reservationService) {
+		super();
+		this.reservationService = reservationService;
+	}
 
-    @Autowired
-    private ReservationService reservationService;
-
-    @PostMapping
+	@PostMapping
     public ResponseEntity<ReservationDTO> reserveBook(@RequestParam Long bookId, @RequestParam Long customerId) {
         // Reserve a book and convert to DTO
         Reservation reservation = reservationService.reserveBook(bookId, customerId);
