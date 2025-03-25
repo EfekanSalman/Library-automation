@@ -28,12 +28,12 @@ public class Lending {
 	@JoinColumn(name = "user_id", nullable = false)
 	private Customer customer;
 
-	private final Date borrowDate;
+	private Date borrowDate;
 	
-	private final Date dueDate;
+	private Date dueDate;
 	
-	private final Date returnDate;
+	private Date returnDate;
 	
-	private final double fineAmount;
+	private double fineAmount;
 		
 }
