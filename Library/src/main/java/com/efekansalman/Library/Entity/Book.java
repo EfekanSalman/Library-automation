@@ -24,16 +24,16 @@ public class Book {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private final Long id;
+	private  Long id;
 	
 	@Column(nullable = false)
-	private final String title;
+	private String title;
 		
-	private final Date publicationDate;
+	private Date publicationDate;
 	
-	private final Date printDate;
+	private Date printDate;
 	
-	private final int pageCount;
+	private int pageCount;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)

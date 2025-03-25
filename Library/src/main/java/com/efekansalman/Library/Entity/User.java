@@ -13,9 +13,6 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-
-
-
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -23,16 +20,16 @@ import lombok.Data;
 public abstract class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private final long id;
+	private long id;
 	
 	@Column(nullable = false, unique = true)
-	private final String username;
+	private String username;
 	
 	@Column(nullable = false)
-	private final String password;
+	private String password;
 	
 	@Column(nullable = false)
-	private final String email;
+	private String email;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
